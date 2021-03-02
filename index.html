@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Test work</title>
+   <!-- Style Css -->
+   <style>
+      @font-face {
+         font-family: "MWF-MDL2";
+         src: url("https://www.microsoft.com/mwf/_h/v3.07/mwf.app/fonts/mwfmdl2-v3.07.woff2") format("woff2"),
+            url("https://www.microsoft.com/mwf/_h/v3.07/mwf.app/fonts/mwfmdl2-v3.07.woff") format("woff"),
+            url("https://www.microsoft.com/mwf/_h/v3.07/mwf.app/fonts/mwfmdl2-v3.07.ttf") format("truetype"),
+            url("https://www.microsoft.com/mwf/_h/v3.07/mwf.app/fonts/mwfmdl2-v3.07.svg") format("svg");
+      }
+
+      html {
+         box-sizing: border-box;
+      }
+
+      *,
+      *::before,
+      *::after {
+         box-sizing: inherit;
+      }
+
+      a {
+         display: inline-block;
+         text-decoration: none;
+         color: inherit;
+      }
+
+      ul,
+      li {
+         list-style: none;
+         margin: 0;
+         padding: 0;
+      }
+
+      button {
+         cursor: pointer;
+      }
+
+      /*=== скрытие крестика в инпуте ===*/
+      input[type="text"]::-ms-clear {
+         display: none;
+         width: 0;
+         height: 0;
+      }
+
+      input[type="text"]::-ms-reveal {
+         display: none;
+         width: 0;
+         height: 0;
+      }
+
+      input[type="search"]::-webkit-search-decoration,
+      input[type="search"]::-webkit-search-cancel-button,
+      input[type="search"]::-webkit-search-results-button,
+      input[type="search"]::-webkit-search-results-decoration {
+         display: none;
+      }
+
+      body {
+         margin: 0;
+         font-size: 15px;
+         font-family: "Segoe UI", "SegoeUI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+         background-color: gray;
+      }
+
+      /*=== Header ===*/
+      .header {
+         width: 100%;
+         height: 54px;
+         display: flex;
+         align-items: center;
+         background-color: #fff;
+      }
+
+      .container {
+         width: 90%;
+         margin: 0 auto;
+      }
+
+      .header__container {
+         display: flex;
+         align-items: center;
+         position: relative;
+      }
+
+      .header__logo a {
+         width: 137px;
+         padding: 16px 6px 16px 10px;
+      }
+
+      .header__logo img {
+         width: 108px;
+      }
+
+      .header__block-surface {
+         position: relative;
+      }
+
+      .header__block-surface::before {
+         border-left: 2px solid #000;
+         height: 24px;
+         content: " ";
+         margin-left: 7px;
+         position: absolute;
+         top: 15px;
+      }
+
+      .block-surface__link {
+         position: relative;
+         padding: 16px 6px 16px 10px;
+         margin-left: 18px;
+      }
+
+      .block-surface__link span {
+         display: block;
+         font-size: 18px;
+         font-weight: 600;
+
+         margin-top: -3px;
+      }
+
+      /*=== Burger nav ===*/
+      .menu__burger {
+         display: none;
+         position: absolute;
+         cursor: pointer;
+         width: 25px;
+         height: 20px;
+         left: 30px;
+         top: 18px;
+         z-index: 5;
+      }
+
+      .menu__burger::before {
+         position: absolute;
+         content: "";
+         width: 100%;
+         height: 1px;
+         top: 0px;
+         background: #000;
+         transition: transform ease 0.2s, top 0.2s ease 0.2s;
+      }
+
+      .menu__burger::after {
+         position: absolute;
+         content: "";
+         width: 100%;
+         height: 1px;
+         bottom: 6px;
+         background: #000;
+         transition: transform ease 0.2s, bottom 0.2s ease 0.2s;
+      }
+
+      .burger__menu {
+         position: absolute;
+         width: 100%;
+         height: 1px;
+         top: 6px;
+         background: #000;
+         transition: transform ease 0.1s;
+      }
+
+      .menu__burger.active .burger__menu {
+         transform: scale(0);
+      }
+
+      .menu__burger.active::before {
+         top: 9px;
+         transform: rotate(45deg);
+         transition: top ease 0.2s, transform 0.2s ease 0.2s;
+      }
+
+      .menu__burger.active::after {
+         bottom: 9px;
+         transform: rotate(-45deg);
+         transition: bottom ease 0.2s, transform 0.2s ease 0.2s;
+      }
+
+      /*=== Menu ===*/
+      .header__menu {
+         width: 100%;
+      }
+
+      .header__nav {
+         display: flex;
+         width: 100%;
+         font-size: 13px;
+      }
+
+      .menu__list {
+         display: flex;
+      }
+
+      .menu__link,
+      .menu-actions__link {
+         position: relative;
+         padding: 16px 30px 16px 12px;
+      }
+
+      .menu__link::after {
+         font-family: "MWF-MDL2";
+         content: "";
+         position: absolute;
+         font-size: 8px;
+         display: inline-block;
+         color: currentColor;
+         font-weight: 700;
+         padding-top: 7px;
+         right: 15px;
+      }
+
+      .menu__list .menu__item:last-child .menu__link::after {
+         content: "";
+      }
+
+      .menu__item {
+         position: relative;
+      }
+
+      .computers__subtitle {
+         position: absolute;
+         width: 200px;
+         background: #f2f2f2;
+      }
+
+      .computers__subtitle-link {
+         padding: 18px 38px 18px 24px;
+      }
+
+      .menu-all-microsoft__list {
+         margin-left: auto;
+         margin-right: 15px;
+      }
+
+      .header__menu-actions {
+         display: flex;
+         align-items: center;
+      }
+
+      .menu-actions__link::after {
+         font-family: "MWF-MDL2";
+         content: "";
+         position: absolute;
+         font-size: 8px;
+         display: inline-block;
+         color: currentColor;
+         font-weight: 700;
+         padding-top: 7px;
+         right: 15px;
+      }
+
+      /*=== Search form ===*/
+      .header__search-form {
+         position: absolute;
+         right: 10%;
+         top: 10px;
+         height: 38px;
+         width: 78%;
+         display: none;
+         z-index: 6;
+      }
+
+      .search-form__input {
+         padding: 7px 38px 7px 10px;
+         height: 100%;
+         width: 100%;
+         border: 1px solid #000;
+         outline: none;
+      }
+
+      .search-form__input:focus {
+         border: 3px solid rgb(1, 1, 37);
+      }
+
+      .search-form__btn {
+         padding: 15px 9px;
+         border: none;
+         background: #fff;
+      }
+
+      .search-form-glass::after,
+      .search-form__btn::after {
+         font-family: "MWF-MDL2";
+         content: "";
+         -ms-high-contrast-adjust: none;
+         border: none;
+         display: inline-block;
+         font-size: 16px;
+         margin-left: 2px;
+         position: relative;
+         text-indent: 0;
+         vertical-align: sub;
+      }
+
+      .search-form-glass {
+         right: 36px;
+         position: relative;
+         border: none;
+         background: transparent;
+         width: 36px;
+         height: 100%;
+      }
+
+      .search-form__btn-cancel {
+         padding: 10px 15px;
+         border: none;
+         background-color: #fff;
+         position: relative;
+         right: 70px;
+         z-index: 6;
+         display: none;
+      }
+
+      /*=== Menu-actions ===*/
+      .shopping__cart {
+         position: relative;
+         margin: 0 10px;
+      }
+
+      .shopping__cart::after {
+         font-family: "MWF-MDL2";
+         content: "";
+         display: inline-block;
+         float: left;
+         font-size: 16px;
+         line-height: 42px;
+         margin-top: 2px;
+      }
+
+      .user__control img {
+         width: 32px;
+         height: 32px;
+         margin: 8px;
+      }
+
+      .show {
+         display: flex;
+      }
+
+      .hide {
+         display: none;
+      }
+
+      /*=== Section ===*/
+      .section__img {
+         display: block;
+         width: 100%;
+         height: auto;
+      }
+
+      /*=== @media queries ===*/
+      @media (min-width: 1920px) {
+         .header__nav {
+            font-size: 20px;
+         }
+      }
+
+      @media (max-width: 1919.9px) {
+         .search-form__btn-cancel {
+            right: 90px;
+         }
+
+         .header__nav {
+            font-size: 15px;
+         }
+      }
+
+      @media (max-width: 1650px) {
+         .search-form__btn-cancel {
+            right: 90px;
+         }
+
+         .header__nav {
+            font-size: 15px;
+         }
+      }
+
+      @media (max-width: 1399.9px) {
+         .header__nav {
+            font-size: 13px;
+         }
+
+         .search-form__btn-cancel {
+            right: 70px;
+         }
+      }
+
+      @media (max-width: 1199.9px) {
+         .header {
+            border-bottom: 1px solid #000;
+         }
+
+         .container {
+            width: 100%;
+         }
+
+         .menu__burger {
+            display: block;
+         }
+
+         .header__menu {
+            min-height: 54px;
+         }
+
+         .header__nav {
+            position: absolute;
+            top: 0;
+            flex-direction: column;
+            background: #f2f2f2;
+            opacity: 0;
+            transition: opacity ease-in-out 0.2s;
+            z-index: -1;
+            visibility: hidden;
+            height: 100vh;
+         }
+
+         .header__nav.active {
+            visibility: visible;
+            top: 54px;
+            opacity: 1;
+            z-index: 7;
+         }
+
+         .header__logo {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+         }
+
+         .header__block-surface {
+            position: absolute;
+            top: 54px;
+            width: 100%;
+            background-color: #fff;
+            border-bottom: 1px solid #000;
+         }
+
+         .header__block-surface::before {
+            display: none;
+         }
+
+         .block-surface__link {
+            margin-left: 0;
+            padding: 10px 20px;
+         }
+
+         .block-surface__link::after {
+            font-family: "MWF-MDL2";
+            content: "";
+            position: absolute;
+            font-size: 12px;
+            display: inline-block;
+            color: currentColor;
+            font-weight: 700;
+            padding-top: 7px;
+            right: -5px;
+            top: 8px;
+         }
+
+         .block-surface__link .line {
+            background-color: transparent;
+         }
+
+         .menu__list {
+            flex-direction: column;
+            width: 100%;
+         }
+
+         .menu-all-microsoft__list {
+            margin-left: 0;
+            margin-right: 0;
+         }
+
+         .header__search-form {
+            right: 10%;
+         }
+
+         .search-form__input {
+            padding: 7px 10px 7px 38px;
+         }
+
+         .search-form-glass {
+            left: 0;
+            position: absolute;
+            border: none;
+            background: transparent;
+            width: 36px;
+            height: 100%;
+         }
+
+         .search-form__btn {
+            position: absolute;
+            left: 58px;
+         }
+
+         .search-form__btn-cancel {
+            padding: 10px 15px;
+            border: none;
+            background-color: #fff;
+            position: absolute;
+            right: 0px;
+            left: 0px;
+            z-index: 6;
+         }
+      }
+
+      @media (max-width: 991.9px) {
+         .menu__burger {
+            left: 15px;
+         }
+
+         .header__search-form {
+            left: 10%;
+         }
+      }
+
+      @media (max-width: 767.9px) {
+         .header__search-form {
+            left: 13%;
+         }
+      }
+
+      @media (max-width: 576.9px) {
+         .header__search-form {
+            left: 18%;
+            width: 70%;
+         }
+
+         .search-form__btn {
+            position: absolute;
+            left: 50px;
+         }
+      }
+
+      @media (max-width: 413.9px) {
+         .header__search-form {
+            left: 25%;
+            width: 70%;
+         }
+      }
+   </style>
+</head>
+
+<body>
+   <!-- Header -->
+   <div class="header">
+      <!-- Container -->
+      <div class="container header__container">
+         <!-- Header logo -->
+         <div class="header__logo">
+            <a class="logo__link" href="#">
+               <img src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1Mu3b?ver=5c31"
+                  alt="">
+            </a>
+         </div>
+         <div class="header__block-surface">
+            <a href="#" class="block-surface__link hover-link">
+               <span>Surface</span>
+            </a>
+         </div>
+         <!-- Burger menu -->
+         <div id="burger__nav" class="menu__burger">
+            <span class="burger__menu"></span>
+         </div>
+         <!-- Header menu -->
+         <div class="header__menu">
+            <!-- nav -->
+            <nav class="header__nav">
+               <!-- menu -->
+               <ul class="menu__list">
+                  <li class="menu__item">
+                     <a href="#" class="menu__link hover-link">Computers</a>
+                  </li>
+                  <li id="compforbis" class="menu__item"><a href="#" class="menu__link hover-link">Computers for
+                        Business</a></li>
+                  <li id="accossorise" class="menu__item"><a href="#" class="menu__link hover-link">Accessories</a></li>
+                  <li id="shop" class="menu__item"><a href="#" class="menu__link hover-link">Shop now</a></li>
+                  <li id="support" class="menu__item"><a href="#" class="menu__link hover-link">Support</a></li>
+               </ul>
+               <ul class="menu-all-microsoft__list">
+                  <li class="menu-actions__item">
+                     <a class="menu-actions__link hover-link" href="#">All Microsoft</a>
+                  </li>
+               </ul>
+            </nav>
+         </div>
+         <!-- Header search-form -->
+         <form class="header__search-form">
+            <input class="search-form__input" type="search" placeholder="Search Microsoft.com">
+            <button class="search-form-glass"></button>
+         </form>
+         <button class="search-form__btn"></button>
+         <button class="search-form__btn-cancel">Cansel</button>
+         <!-- Header menu-actions -->
+         <div class="header__menu-actions">
+            <a href="#" class="shopping__cart"></a>
+            <a class="user__control" href="#">
+               <img src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male4-128.png" alt="">
+            </a>
+         </div>
+      </div>
+   </div>
+   <!-- Section -->
+   <section>
+      <picture>
+         <source
+            srcset="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4ohgv?ver=897f&amp;q=90&amp;m=8&amp;h=898&amp;w=539&amp;b=%23FFFFFFFF&amp;l=f&amp;x=1160&amp;y=1&amp;s=960&amp;d=1599&amp;aim=true"
+            media="(max-width:539px)">
+         <source
+            srcset="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4ohgv?ver=897f&amp;q=90&amp;m=8&amp;h=1280&amp;w=768&amp;b=%23FFFFFFFF&amp;l=f&amp;x=1152&amp;y=0&amp;s=960&amp;d=1600&amp;aim=true"
+            media="(min-width:540px) and (max-width:767px)">
+         <source
+            srcset="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4ohgv?ver=897f&amp;q=90&amp;m=8&amp;h=1805&amp;w=1083&amp;b=%23FFFFFFFF&amp;l=f&amp;x=714&amp;y=4&amp;s=955&amp;d=1592&amp;aim=true"
+            media="(min-width:768px) and (max-width:1083px)">
+         <source
+            srcset="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4ohgv?ver=897f&amp;q=90&amp;m=8&amp;h=931&amp;w=1399&amp;b=%23FFFFFFFF&amp;l=f&amp;x=0&amp;y=0&amp;s=2400&amp;d=1597&amp;aim=true"
+            media="(min-width:1084px) and (max-width:1399px)">
+         <source
+            srcset="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4ohgv?ver=897f&amp;q=90&amp;m=8&amp;h=1185&amp;w=1778&amp;b=%23FFFFFFFF&amp;l=f&amp;x=0&amp;y=0&amp;s=2400&amp;d=1600&amp;aim=true"
+            media="(min-width:1400px) and (max-width:1778px)">
+         <source
+            srcset="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4ohgv?ver=897f&amp;q=90&amp;m=6&amp;h=1080&amp;w=1920&amp;b=%23FFFFFFFF&amp;l=f&amp;o=t&amp;aim=true">
+         <img class="section__img" alt="Surface Book 3 with the screen detached"
+            src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4ohgv?ver=897f&amp;q=90&amp;m=6&amp;h=1080&amp;w=1920&amp;b=%23FFFFFFFF&amp;l=f&amp;o=t&amp;aim=true">
+      </picture>
+   </section>
+   <!-- Script JS -->
+   <script>
+      //получение переменных
+      const burgerNav = document.getElementById('burger__nav'),
+         headerBlockSurface = document.querySelector('.header__block-surface'),
+         headerNav = document.querySelector('.header__nav'),
+         headerMenuActions = document.querySelector('.header__menu-actions '),
+         headerSearchForm = document.querySelector('.header__search-form'),
+         searchFormInput = document.querySelector('.search-form__input'),
+         searchFormBtn = document.querySelector('.search-form__btn'),
+         formBtnCancel = document.querySelector('.search-form__btn-cancel'),
+         links = document.querySelectorAll('.hover-link'),
+         line = document.createElement('div');
+
+      //функция скрытия формы
+      const hideForm = () => {
+         headerSearchForm.classList.remove('show');
+         headerBlockSurface.classList.remove('hide');
+         searchFormBtn.classList.remove('hide');
+         headerNav.classList.remove('hide');
+         headerMenuActions.classList.remove('hide');
+         formBtnCancel.classList.remove('show');
+      }
+
+      //функция показа формы
+      const showForm = () => {
+         headerSearchForm.classList.add('show');
+         formBtnCancel.classList.add('show');
+         // headerBlockSurface.classList.add('hide');
+         searchFormBtn.classList.add('hide');
+         headerNav.classList.add('hide');
+         headerMenuActions.classList.add('hide');
+      }
+
+      //обработчик события клика 
+      searchFormBtn.addEventListener('click', showForm);//показать форму
+      formBtnCancel.addEventListener('click', hideForm);//закрыть форму
+
+      //обработчик события нажатия кнопки Escape (закрыть форму)
+      document.body.addEventListener('keydown', (e) => {
+
+         if (e.code === 'Escape' && headerSearchForm.classList.contains('show')) {
+            hideForm();
+         }
+      });
+
+      //обработчик события наведения на сылку
+      links.forEach(link => {
+         link.addEventListener('mouseover', () => {
+            line.classList.add('line');
+            line.style.cssText = `
+               height: 2px;
+               background-color: #000;
+               position: absolute;
+               bottom: 9px;
+               width: calc(100% - 40px);
+            `;
+            link.appendChild(line, link.firstChild);
+         });
+      })
+
+      //обработчик события ухода с сылку
+      links.forEach(link => {
+         link.addEventListener('mouseout', () => {
+            link.removeChild(line, link.firstChild);
+         });
+      })
+
+      // burger menu
+      burgerNav.addEventListener('click', () => {
+         burgerNav.classList.toggle('active');
+         headerNav.classList.toggle('active');
+      });
+   </script>
+</body>
+
+</html>
